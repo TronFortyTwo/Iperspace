@@ -1,0 +1,13 @@
+{
+    "name": "iperspace.emanuelesorce",
+    "description": "Bypass AppArmor using Infinite Improbability Drive",
+    "title": "Iperspace",
+    "hooks": {
+        "ubports": {
+            "apparmor": "aa.apparmor"
+        }
+    },
+    "version": "1.1",
+    "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
+    "framework" : "ubuntu-sdk-15.04.6"
+}
