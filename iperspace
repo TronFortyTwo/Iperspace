@@ -1,0 +1,83 @@
+#!/bin/bash
+
+#
+# Enter ssh to bypass apparmor
+#
+
+
+# Create ssh key to can ssh localhost
+if [ ! -f ~/.ssh/iperspace_key.pub ]; then
+	clear
+	echo "Iperspace AppArmor Bypass"
+	echo
+	echo "                 \|/"
+	echo "         .       -O-"
+	echo "         |       /|\ "
+	echo "        / \ "
+	echo "       /-  \=======@-|"
+	echo "       =====       |o|"	
+	echo "       |-- |       |o|"
+	echo "       |-  |=======@-|"
+	echo "       /\ /\       |o|"
+	echo "      |- |- |      |o|"
+	echo "     /|- |- |\     |-|"
+	echo "    /_|- |- |_\    |o|"
+	echo "       /\ /\       #L#"
+	echo "-----------------#######"
+
+	echo "It's your first time entering Iperspace. Read this before take off"
+	echo "Terminal app capabilities are limited by AppArmor limitations,"
+	echo "To bypass them is enought to use ssh to connect back to the device (loopback connection)"
+	echo "It's enought to do the configuration process just once, then anywhen you want you can call the command 'iperspace' to bypass AppArmor"
+	echo "The installation process is going to do the following things:"
+	echo "- set up ssh loopback connection (aka iperspace)"
+	echo "- make possible to directly call the command 'iperspace' to enter the iperspace"
+	echo "The process is completely automated, there is no need for any user interaction"
+	echo
+	echo "Press 'q' to abort, anything else to start installation"
+	read i
+	if [ "$i" == "q" ]; then
+		exit
+	fi
+	echo
+	echo "Creating ssh key..."
+	echo
+	if [ ! -d ~/.ssh ]; then
+		mkdir ~/.ssh
+	fi
+	ssh-keygen -t rsa -N "" -f ~/.ssh/iperspace_key
+	cat ~/.ssh/iperspace_key.pub >> ~/.ssh/authorized_keys
+	echo
+	echo "Adding 'iperspace' to the PATH..."
+	echo "export PATH=\$PATH:~/.cache/iperspace.emanuelesorce/" >> ~/.bashrc
+	echo
+	echo "Done!"
+	echo "Press anything to continue"
+	read -n 1 -s
+fi
+
+# Start ssh server if stopped
+sshstatus=$(/etc/init.d/ssh status)
+if [ "$sshstatus" == "ssh stop/waiting" ]; then
+	echo
+	echo "Insert user password to start ssh server (now is stopped/waiting)"
+	echo
+	sudo /etc/init.d/ssh start
+fi
+
+# Enter apparmorless shell
+clear
+echo "--------------------------------"
+echo "YOU ARE NOW INSIDE THE IPERSPACE"
+echo
+echo "      \_____     _"
+echo "===> D|_____)----.\__"
+echo "===> D|_____)----_/  "
+echo "      /                 "
+echo
+echo
+echo "You can go back to the normal shell with 'exit'"
+echo
+echo "------------------------------------------"
+echo
+ssh localhost
