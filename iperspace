@@ -6,7 +6,7 @@
 
 
 # Create ssh key to can ssh localhost
-if [ ! -f ~/.ssh/iperspace.pub ]; then
+if [ ! -f ~/.ssh/iperspace_key.pub ]; then
 	clear
 	echo "Iperspace AppArmor Bypass"
 	echo
@@ -45,8 +45,8 @@ if [ ! -f ~/.ssh/iperspace.pub ]; then
 	if [ ! -d ~/.ssh ]; then
 		mkdir ~/.ssh
 	fi
-	ssh-keygen -t rsa -N "" -f ~/.ssh/iperspace
-	cat ~/.ssh/iperspace.pub >> ~/.ssh/authorized_keys
+	ssh-keygen -t rsa -N "" -f ~/.ssh/iperspace_key
+	cat ~/.ssh/iperspace_key.pub >> ~/.ssh/authorized_keys
 	echo
 	echo "Adding 'iperspace' to the PATH..."
 	echo "export PATH=\$PATH:~/.cache/iperspace.emanuelesorce/" >> ~/.bashrc
@@ -80,4 +80,4 @@ echo "You can go back to the normal shell with 'exit'"
 echo
 echo "------------------------------------------"
 echo
-ssh -i ~/.ssh/iperspace localhost
+ssh -i ~/.ssh/iperspace_key localhost
